@@ -19,7 +19,7 @@ console.log(formattedDate);
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/app.html');
 });
 
 let messages = [];
@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
         messages.push(message);
         io.emit('chat_emit', message);
 
-        fs.appendFile('./save/chat.txt', formattedDate + ' ' + message + "\n", (err) => {
+        fs.appendFile('./save/chat.txt', message + "\n", (err) => {
             if (err) {
                 console.error(err);
                 return;
