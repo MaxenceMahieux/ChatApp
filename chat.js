@@ -4,6 +4,17 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const fs = require('fs');
 
+let currentDate = new Date();
+let day = currentDate.getDate();
+let month = currentDate.getMonth() + 1;
+let year = currentDate.getFullYear();
+let hours = currentDate.getHours();
+let minutes = currentDate.getMinutes();
+let seconds = currentDate.getSeconds();
+
+let formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+console.log(formattedDate);
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
@@ -23,18 +34,18 @@ io.on('connection', (socket) => {
 
     io.emit('user_count', userCount);
 
-    console.log(user + ' vient de se connecter au serveur');
+    console.log(formattedDate + ' ' + user + ' vient de se connecter au serveur');
     socket.emit('user_info', user);
     socket.emit('chat_history', messages);
 
     socket.on('chat_message', (msg) => {
         console.log('message de ' + user + ': ' + msg);
 
-        let message = user + ': ' + msg;
+        let message = formattedDate + ' ' + user + ': ' + msg;
         messages.push(message);
         io.emit('chat_emit', message);
 
-        fs.appendFile('./save/chat.txt', message + "\n", (err) => {
+        fs.appendFile('./save/chat.txt', formattedDate + ' ' + message + "\n", (err) => {
             if (err) {
                 console.error(err);
                 return;
