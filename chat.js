@@ -3,6 +3,7 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const fs = require('fs');
+const config = require('./config.json');
 
 let currentDate = new Date();
 let day = currentDate.getDate();
@@ -60,6 +61,6 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(3000, () => {
-    console.log('listening on *:3000');
+http.listen(config.port, () => {
+    console.log('listening on *:' + config.port);
 });
