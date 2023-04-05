@@ -19,7 +19,7 @@ console.log(formattedDate);
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/app.html');
+    res.sendFile(__dirname + '/index.html');
 });
 
 let messages = [];
@@ -31,7 +31,14 @@ function randomnumber(max) {
 
 io.on('connection', (socket) => {
     userCount++;
+
     let user = "user" + randomnumber(100);
+    socket.on('pseudo', (msg) => {
+        user = msg;
+        socket.emit('user_info', user);
+        
+    });
+
 
     io.emit('user_count', userCount);
 
