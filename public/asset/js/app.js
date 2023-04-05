@@ -1,10 +1,22 @@
 var socket = io();
+
 var messageForm = document.getElementById('message-form');
 var messageInput = document.getElementById('message-input');
+
+var pseudoForm = document.getElementById('pseudo-form');
+var pseudoInput = document.getElementById('pseudo-input');
+
 var messageList = document.getElementById('message-list');
+
 var userCount = document.getElementById('user-count');
 var userInfo = document.getElementById('user-info');
 
+pseudoForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (pseudoInput.value) {
+    socket.emit('pseudo', pseudoInput.value);
+  }
+});
 
 // Mettre à jour le nombre d'utilisateurs connectés
 
