@@ -11,7 +11,6 @@ let month = currentDate.getMonth() + 1;
 let year = currentDate.getFullYear();
 let hours = currentDate.getHours();
 let minutes = currentDate.getMinutes();
-let seconds = currentDate.getSeconds();
 
 let formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
 console.log(formattedDate);
