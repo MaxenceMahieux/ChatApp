@@ -28,7 +28,6 @@ socket.on('user_info', function (info) {
 });
 
 socket.on('chat_history', function (history) {
-  history.reverse(); // Inverser l'ordre des messages pour afficher le dernier en dernier
 
   history.forEach(function (msg) {
     var messageItem = document.createElement('li');
