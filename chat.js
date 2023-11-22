@@ -7,7 +7,13 @@ const config = require('./config.json');
 const mysql = require('mysql2');
 
 const db = mysql.createPool({
-
+    host: 'qwy.fr',
+    user: 'evan',
+    password: 'qwy44*',
+    database: 'chatapp',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
 let currentDate = new Date();
