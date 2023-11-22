@@ -4,6 +4,11 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const fs = require('fs');
 const config = require('./config.json');
+const mysql = require('mysql2');
+
+const db = mysql.createPool({
+
+});
 
 let currentDate = new Date();
 let day = currentDate.getDate();
@@ -22,6 +27,20 @@ app.get('/', (req, res) => {
 });
 
 let messages = [];
+
+db.query(`SELECT * FROM messages`, (err, msg) => {
+    if (!msg[0]) return console.error("No msg found");
+    let msgq = msg;
+    console.log(msgq);
+
+    msgq.forEach(arraymsg => {
+        let messagep = arraymsg.username + ': ' + arraymsg.message;
+        console.log(messagep);
+        messages.push(messagep);
+    });
+    
+})
+
 let userCount = 0;
 
 function randomnumber(max) {
@@ -35,29 +54,27 @@ io.on('connection', (socket) => {
     socket.on('pseudo', (msg) => {
         user = msg;
         socket.emit('user_info', user);
-        
+
     });
 
 
     io.emit('user_count', userCount);
-
+    socket.emit('chat_clear');
     console.log(formattedDate + ' ' + user + ' vient de se connecter au serveur');
     socket.emit('user_info', user);
     socket.emit('chat_history', messages);
 
-    socket.on('chat_message', (msg) => {
+    socket.on('chat_message', async (msg) => {
+        db.query(`INSERT INTO messages (message, username) VALUES ('${msg}', '${user}')`)
+
         console.log('message de ' + user + ': ' + msg);
 
-        let message = formattedDate + ' ' + user + ': ' + msg;
+        let message = user + ': ' + msg;
+
         messages.push(message);
+
         io.emit('chat_emit', message);
 
-        fs.appendFile('./save/chat.txt', message + "\n", (err) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-        });
     });
 
     socket.on('disconnect', () => {
@@ -68,5 +85,5 @@ io.on('connection', (socket) => {
 });
 
 http.listen(config.port, () => {
-    console.log('listening on *:' + config.port);
+    console.log('listening on *: http://localhost:' + config.port);
 });
