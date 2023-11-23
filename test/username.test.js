@@ -1,7 +1,5 @@
-const mysql = require('mysql2');
 const ioClient = require('socket.io-client');
 const config = require('../config.json');
-const databaseConfigTest = require('../config/databaseConfig');
 
 // Fonction utilitaire pour créer un client Socket.IO pour les tests
 function createSocketClient() {

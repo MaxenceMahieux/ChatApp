@@ -1,8 +1,8 @@
 const mysql = require('mysql2');
-const databaseConfigTest = require('../config/databaseConfig');
+const databaseConfig = require('../config/databaseConfig.json');
 
 // Création d'une connexion à la base de données pour les tests en utilisant les informations exportées
-const db = mysql.createPool(databaseConfigTest);
+const db = mysql.createPool(databaseConfig);
 
 describe('Envoi d\'un message dans le chat', () => {
     it('', async () => {
