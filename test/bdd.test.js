@@ -1,15 +1,8 @@
 const mysql = require('mysql2');
+const databaseConfig = require('../config/databaseConfig');
 
 function createDBPool() {
-    return mysql.createPool({
-        host: 'qwy.fr',
-        user: 'evan',
-        password: 'qwy44*',
-        database: 'chatapp',
-        waitForConnections: true,
-        connectionLimit: 10,
-        queueLimit: 0
-    });
+    return mysql.createPool(databaseConfig);
 }
 
 jest.mock('mysql2', () => ({
@@ -18,8 +11,6 @@ jest.mock('mysql2', () => ({
             const mockConnection = {
                 // Simuler la méthode release pour la libération de la connexion
                 release: jest.fn(),
-                // Autres méthodes ou fonctionnalités que vous pourriez utiliser
-                // ...
             };
             callback(null, mockConnection);
         }),
@@ -28,18 +19,10 @@ jest.mock('mysql2', () => ({
 }));
 
 describe('Connexion à la base de donnée', () => {
-    it('', async () => {
+    it('should successfully connect to the database', async () => {
         const db = createDBPool();
 
-        expect(mysql.createPool).toHaveBeenCalledWith({
-            host: 'qwy.fr',
-            user: 'evan',
-            password: 'qwy44*',
-            database: 'chatapp',
-            waitForConnections: true,
-            connectionLimit: 10,
-            queueLimit: 0
-        });
+        expect(mysql.createPool).toHaveBeenCalledWith(databaseConfig);
 
         const connection = await new Promise((resolve) => {
             db.getConnection((err, conn) => {

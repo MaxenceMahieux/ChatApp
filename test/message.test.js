@@ -1,15 +1,8 @@
 const mysql = require('mysql2');
+const databaseConfigTest = require('../config/databaseConfig');
 
-// Création d'une connexion à la base de données pour les tests
-const db = mysql.createPool({
-    host: 'qwy.fr',
-    user: 'evan',
-    password: 'qwy44*',
-    database: 'chatapp', // Utilisation d'une base de données de test
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+// Création d'une connexion à la base de données pour les tests en utilisant les informations exportées
+const db = mysql.createPool(databaseConfigTest);
 
 describe('Envoi d\'un message dans le chat', () => {
     it('', async () => {
