@@ -14,6 +14,7 @@ const db = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
 });
+module.exports = db;
 
 let currentDate = new Date();
 let day = currentDate.getDate();
