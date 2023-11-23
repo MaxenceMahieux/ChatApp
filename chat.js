@@ -56,6 +56,10 @@ io.on('connection', (socket) => {
     userCount++;
 
     let user = "user" + randomnumber(100);
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let time = hours + ':' + minutes;
     socket.on('pseudo', (msg) => {
         user = msg;
         socket.emit('user_info', user);
@@ -74,7 +78,7 @@ io.on('connection', (socket) => {
 
         console.log('message de ' + user + ': ' + msg);
 
-        let message = user + ': ' + msg;
+        let message = '[' + time + '] ' + user + ': ' + msg;
 
         messages.push(message);
 
